@@ -127,7 +127,7 @@ if($playerHand[1] < $oppHand[1]){
         <input type="button"  value="もう一度遊ぶ" onclick="koshin()">
     
     </div>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
     <script>
     function koshin(){
         location.reload();
