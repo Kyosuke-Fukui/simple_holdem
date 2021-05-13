@@ -43,22 +43,20 @@ include './function.php';
 
 $cardPlayer_target = array_merge($cardPlayer,$ComCard);
 $cardOpp_target = array_merge($cardOpp,$ComCard);
-$cardPlayer_target_combi = combination($cardPlayer_target,5);
-$cardOpp_target_combi = combination($cardOpp_target,5);
 
-$cardPlayer_hand_combi = [];
-for ($i=0; $i < count($cardPlayer_target_combi); $i++) { 
-   $cardPlayer_hand_combi[] = show_hands(sort_hands($cardPlayer_target_combi[$i]));
+function determine_hand($arr){
+    $combi_array = [];
+    $combi_array = combination($arr,5);
+    $hand_combi = [];
+    for ($i=0; $i < count($combi_array); $i++) { 
+        $hand_combi[] = show_hands(sort_hands($combi_array[$i]));
+    }
+
+    return max_hands($hand_combi)[0];
 }
 
-$playerHand = max_hands($cardPlayer_hand_combi)[0];
-
-$cardOpp_hand_combi = [];
-for ($i=0; $i < count($cardOpp_target_combi); $i++) { 
-   $cardOpp_hand_combi[] = show_hands(sort_hands($cardOpp_target_combi[$i]));
-}
-
-$oppHand = max_hands($cardOpp_hand_combi)[0];
+$playerHand = determine_hand($cardPlayer_target);
+$oppHand = determine_hand($cardOpp_target);
 
 $messege;
 //勝敗判定

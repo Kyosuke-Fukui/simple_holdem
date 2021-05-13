@@ -83,23 +83,26 @@ function show_hands($array){
             $hand = ["ストレート",6,$face_array[0]];
         }
     }else {
-        if($count_same_suits == 5) $hand = ["フラッシュ",5,$face_array[0]];
-        if($count_same_faces == 4) $hand = ["フォーカード",3,$pair];
-        if ($count_same_faces == 3){
-            if(count($same_faces) == 2) {
-            $hand = ["フルハウス",4,$pair];
-            }else {
-            $hand = ["スリーカード",7,$pair];
+        if($count_same_suits == 5) {
+            $hand = ["フラッシュ",5,$face_array[0]];
+        }else{
+            if($count_same_faces == 4) $hand = ["フォーカード",3,$pair];
+            if ($count_same_faces == 3){
+                if(count($same_faces) == 2) {
+                $hand = ["フルハウス",4,$pair];
+                }else {
+                $hand = ["スリーカード",7,$pair];
+                }
+            } 
+            if($count_same_faces == 2) {
+                if(count($same_faces) == 3){
+                $hand = ["ツーペア",8,$pair];
+                }else{
+                $hand = ["ワンペア",9,$pair];
+                }
             }
-        } 
-        if($count_same_faces == 2) {
-            if(count($same_faces) == 3){
-            $hand = ["ツーペア",8,$pair];
-            }else{
-            $hand = ["ワンペア",9,$pair];
-            }
+            if($count_same_faces == 1) $hand = ["ハイカード",10,$face_array[0]];
         }
-        if($count_same_faces == 1) $hand = ["ハイカード",10,$face_array[0]];
     }
 
     return $hand;
