@@ -15,6 +15,7 @@ $faces[]='A';
 
 $deck = [];
 
+//強さ判定に使用するキーを付与（2,3,...,A⇒0,1,2...,12）
 foreach($suits as $suit){
     foreach($faces as $key => $face){
         $deck[] = array("key"=>$key,"face"=>$face,"suit"=>$suit);
@@ -26,7 +27,6 @@ shuffle($deck);
 $cardPlayer = [];
 $cardOpp = [];
 $ComCard = [];
-
 for($i = 0; $i < 2; $i++) {
     $cardPlayer[] = array_shift($deck);
 }
@@ -65,12 +65,57 @@ if($playerHand[1] < $oppHand[1]){
 }elseif($playerHand[1] > $oppHand[1]){
     $messege = 'あなたの負けです＞＜';
 }else{
-    if($playerHand[2] > $oppHand[2]){
-    $messege = 'あなたの勝ちです！！';
-    }elseif($playerHand[2] < $oppHand[2]){
-    $messege = 'あなたの負けです＞＜';
-    }else{
-    $messege = '引き分けです';
+    //同役判定（ホールデム仕様なので実際には不要な条件文あり）
+    switch ($playerHand[0]) {
+        case 'ストレートフラッシュ':
+        case 'ストレート':
+            if($playerHand[2][0] > $oppHand[2][0]){
+                //自分がA,2,3,4,5のストレートの場合
+                if(($playerHand[2][0] == 12 && $playerHand[2][1] == 3)){
+                    $messege = 'あなたの負けです＞＜';
+                }else{
+                    $messege = 'あなたの勝ちです！！';
+                }
+            }elseif($playerHand[2][0] < $oppHand[2][0]){
+                //相手がA,2,3,4,5のストレートの場合
+                if(($oppHand[2][0] == 12 && $oppHand[2][1] == 3)){
+                    $messege = 'あなたの勝ちです！！';
+                }else{
+                    $messege = 'あなたの負けです＞＜';
+                }
+            }else{
+                //自分がA,2,3,4,5のストレートの場合
+                if(($playerHand[2][0] == 12 && $playerHand[2][1] == 3)){
+                    //相手がA,2,3,4,5のストレートの場合
+                    if(($oppHand[2][0] == 12 && $oppHand[2][1] == 3)){
+                        $messege = '引き分けです';
+                    }else{
+                        $messege = 'あなたの負けです＞＜';
+                    }
+                }else{
+                    //相手がA,2,3,4,5のストレートの場合
+                    if(($oppHand[2][0] == 12 && $oppHand[2][1] == 3)){
+                        $messege = 'あなたの勝ちです！！';
+                    }else{
+                        $messege = '引き分けです';
+                    }
+                }
+            }
+            break;
+
+        default:
+            for ($i=0; $i < count($playerHand[2]); $i++) { 
+                if($playerHand[2][$i] > $oppHand[2][$i]){
+                    $messege = 'あなたの勝ちです！！';
+                    break;
+                }elseif($playerHand[2][$i] < $oppHand[2][$i]){
+                    $messege = 'あなたの負けです＞＜';
+                    break;
+                }else{
+                    $messege = '引き分けです';
+                }
+            }
+            break;
     }
 }
 ?>
